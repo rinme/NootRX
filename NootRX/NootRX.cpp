@@ -85,7 +85,8 @@ void NootRXMain::processPatcher(KernelPatcher &patcher) {
         auto *device = OSDynamicCast(IOPCIDevice, devInfo->videoExternal[i].video);
         if (device == nullptr) { continue; }
         if (WIOKit::readPCIConfigValue(device, WIOKit::kIOPCIConfigVendorID) == WIOKit::VendorID::ATIAMD &&
-            (WIOKit::readPCIConfigValue(device, WIOKit::kIOPCIConfigDeviceID) & 0xFF00) == 0x7300) {
+            ((WIOKit::readPCIConfigValue(device, WIOKit::kIOPCIConfigDeviceID) & 0xFF00) == 0x7300 ||
+                (WIOKit::readPCIConfigValue(device, WIOKit::kIOPCIConfigDeviceID) & 0xFF00) == 0x7400)) {
             this->dGPU = device;
             snprintf(slotName, arrsize(slotName), "GFX%zu", ii++);
             WIOKit::renameDevice(device, slotName);
@@ -142,6 +143,10 @@ void NootRXMain::processPatcher(KernelPatcher &patcher) {
         case 0x73E3:
         case 0x73EF:
         case 0x73FF:
+        case 0x7421:
+        case 0x7422:
+        case 0x7423:
+        case 0x7424:
             PANIC_COND(this->attributes.isBigSur(), "NootRX", "Your GPU requires macOS 12 and newer");
             if (this->pciRevision == 0xDF) {
                 this->attributes.setNavi22();

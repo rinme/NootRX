@@ -183,7 +183,7 @@
 		<key>IOMatchCategory</key>
 		<string>IOAccelerator</string>
 		<key>IOPCIMatch</key>
-		<string>0x73DF1002 0x73E01002 0x73E11002 0x73E31002 0x73EF1002 0x73FF1002</string>
+		<string>0x73DF1002 0x73E01002 0x73E11002 0x73E31002 0x73EF1002 0x73FF1002 0x74211002 0x74221002 0x74231002 0x74241002</string>
 		<key>IOPCITunnelCompatible</key>
 		<true/>
 		<key>IOPropertyMatch</key>
