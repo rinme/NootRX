@@ -84,8 +84,9 @@ void NootRXMain::processPatcher(KernelPatcher &patcher) {
     for (size_t i = 0, ii = 0; i < devInfo->videoExternal.size(); i++) {
         auto *device = OSDynamicCast(IOPCIDevice, devInfo->videoExternal[i].video);
         if (device == nullptr) { continue; }
+        auto vendorId = WIOKit::readPCIConfigValue(device, WIOKit::kIOPCIConfigVendorID);
         auto deviceId = WIOKit::readPCIConfigValue(device, WIOKit::kIOPCIConfigDeviceID);
-        if (WIOKit::readPCIConfigValue(device, WIOKit::kIOPCIConfigVendorID) == WIOKit::VendorID::ATIAMD &&
+        if (vendorId == WIOKit::VendorID::ATIAMD &&
             ((deviceId & 0xFF00) == 0x7300 || (deviceId & 0xFF00) == 0x7400)) {
             this->dGPU = device;
             snprintf(slotName, arrsize(slotName), "GFX%zu", ii++);
